@@ -17,15 +17,12 @@ public:
 
 int main() {
 	Allocator allocator;
-	allocator.alloc(12);
-	Cls** cls1(allocator.construct<Cls>(1, 2, 3));
-	std::cout << *cls1 << std::endl;
-	Cls** cls2 = allocator.construct<Cls>(2, 4, 5);
-	std::cout << *cls1 << '\t' << *cls2 << std::endl;
-	Cls** cls3 = allocator.construct<Cls>(3, 8, 8);
-	Cls** cls4 = allocator.construct<Cls>(4, 1, 1);
-	std::cout << *cls1 << '\t' << *cls2 << '\t' << *cls3 << '\t' << *cls4 << std::endl;
-	Cls** cls5 = allocator.construct<Cls>(5, 1, 1);
-	//allocator.destroyDownTo(cls3);
-	std::cout << "HERE";
+	allocator.alloc(8);
+	int32_t** a = allocator.construct<int32_t>(1);
+	int32_t** b = allocator.construct<int32_t>(2);
+	std::cout << &(**a) << '\t' << &(**b) << std::endl;
+	allocator.destroyDownTo(*b);
+	int32_t** c = allocator.construct<int32_t>(3);
+	std::cout << &(**a) << '\t' << &(**b) << '\t' << &(**c) << std::endl;
+	system("pause");
 }
