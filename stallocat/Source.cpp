@@ -16,13 +16,10 @@ public:
 };
 
 int main() {
-	Allocator allocator;
-	allocator.alloc(8);
-	int32_t** a = allocator.construct<int32_t>(1);
-	int32_t** b = allocator.construct<int32_t>(2);
-	std::cout << &(**a) << '\t' << &(**b) << std::endl;
-	allocator.destroyDownTo(*b);
-	int32_t** c = allocator.construct<int32_t>(3);
-	std::cout << &(**a) << '\t' << &(**b) << '\t' << &(**c) << std::endl;
-	system("pause");
+	stalloc::StackAllocatorRealloc allocator;
+	allocator.allocate(8);                                  // some space for 2 integers           
+	int32_t** a = allocator.construct<int32_t>(1);          // (1) &(**a) == 0x013CF418 
+	int32_t** b = allocator.construct<int32_t>(2);          // (2) &(**a) == 0x013CF418, &(**b) == 0x013CF41C
+	int32_t** c = allocator.construct<int32_t>(3);          // (3) &(**a) == 0x013C59E0, &(**b) == 0x013C59E4, &(**c) == 0x013C59E8
+	allocator.destroyDownTo(*a);                            // (4) delete 1, 2, 3  
 }
